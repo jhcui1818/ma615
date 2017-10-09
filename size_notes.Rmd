@@ -1,0 +1,57 @@
+---
+title: "Untitled"
+author: "Jinghan Cui"
+date: "10/9/2017"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+```
+##data cleaning
+```{r}
+#import data
+df <- read.csv("size.csv")
+#mark insignificant as NA
+df[df == "Q"] <- NA
+df[df == "N"] <- NA
+#set data as tibble
+df <- as.tibble(df)
+#rename varaibles
+df <- rename(df, size=X, '1'=X1.member, '2'=X2.members, '3'=X3.members, '4'=X4.members, '5 or more'=X5.or.more.members )
+#gather data for data clenning
+df.tidy <- df %>%
+  gather(`1`,`2`, `3`, `4`, `5 or more`,`Total.U.S.2`, key = "household", value = "units")
+#set NA to 0 for graphing
+df.tidy[is.na(df.tidy)] <- 0
+#change clumns' properties
+df.tidy[,1] <- sapply(df.tidy[,1],as.factor)
+df.tidy[,2] <- sapply(df.tidy[,2],as.factor)
+df.tidy[,3] <- sapply(df.tidy[,3],as.numeric)
+```
+##EDA
+```{r}
+ggplot()+
+  geom_bar(aes(x=size,y=units,fill=household),data=df.tidy,stat="identity") +
+  coord_flip() +
+  scale_fill_brewer((pallete="Blues"))
+ggplot()+
+  geom_bar(aes(x=size,y=units,fill=household),data=df.tidy,stat="identity",position = "dodge") +
+  coord_flip() + #set graph to horizontal
+  theme(legend.position = "top") + 
+  scale_fill_brewer(palette="Blues") + #change color
+  theme_dark() #change background color
+```
+```{r}
+ggplot(df.tidy, aes(x=household,y=size,fill=units)) +
+  geom_count() +
+  scale_size_area(max_size = 10)
+```
+
+
+
