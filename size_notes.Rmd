@@ -111,7 +111,7 @@ From the bar plot, we observe “Two doors, top freezer” is the most popular t
 4. The manufacturer should produce more top freezer refrigerator since they are more popular in households who purchase two door refrigerator.
 
 ##Collaboration
-Jinghan Cui and Sijia Li analyse the relationship between the number of household member and the refrigerator size. Siran Zhao and Mengyun Li analyze the relationship between the number of household member and the refrigerator type.
+Jinghan Cui and Sijia Li analyse the relationship between the number of household member and the refrigerator size. Siran Zhao and Mengyun Li analyze the relationship between the number of household member and the refrigerator type. As the first part and second part used similar codes, we helped each other with cleaning data and ggplot. We used google doc to write the analysis together and figured out how to use github together during our last meeting.
 
 
 
