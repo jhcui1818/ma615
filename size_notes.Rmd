@@ -3,9 +3,8 @@ title: 'Associations Between Refrigerator Size, Type and Number of Household Mem
 author: "Jinghan Cui, Siran Zhao, Sijian Li, Mengyun Li"
 date: "10/9/2017"
 output:
-  pdf_document: default
   html_document: default
-  word_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -20,12 +19,11 @@ The purpose of this project is to help refrigerator manufacturer better evaluate
 ```{r}
 ##data cleaning
 #import data
-df <- read.csv("size.csv")
+df <- read.csv("size.csv", stringsAsFactors = F)
 #mark insignificant as NA
 df[df == "Q"] <- NA
 df[df == "N"] <- NA
-#set data as tibble
-df <- as.tibble(df)
+
 #rename varaibles
 df <- rename(df, size=X, '1'=X1.member, '2'=X2.members, '3'=X3.members, '4'=X4.members, '5 or more'=X5.or.more.members)
 #remove not useful data
@@ -65,10 +63,11 @@ As the graph shows, most of families bought medium or large size refrigerators, 
 
 ##Refrigerator's Type VS Household Member
 ```{r }
-typmen <- read.csv("type.csv")
+typmen <- read.csv("type.csv", stringsAsFactors = F)
 typmen <- rename(typmen,type=X,'1'=X1.member,'2'=X2.members,'3'=X3.members,'4'=X4.members, '5 or more'=X5.or.more.members)# rename the variable of the refrigerator types
-typmen.tidy <-typmen %>%
-  gather('1','2','3','4','5 or more', key="member", value= "household")#tidy the data
+typmen.tidy <- typmen %>%
+  gather(`1`:`5 or more`, key="member", value= "household")#tidy the data
+
 typmen.tidy$Total.U.S.2<-NULL #drop the column of useless data
 typmen.tidy[typmen.tidy== 'Q']<-0 # change the not significant data into 0
 typmen.tidy[typmen.tidy== 'N']<-0 # change the NA data into 0
@@ -85,7 +84,6 @@ ggplot()+
   scale_fill_brewer((pallete="Household Members")) +
   theme_dark() +
   labs(x = "Refrigerator Type", y = "Number of Housing Units(million)", title = "Refrigerater's Type and Household Memeber")
-
 ```
 
 ```{r}
